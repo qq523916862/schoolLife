@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="__JS__/jquery.min.js"></script> 
+<script type="text/javascript" src="__JS__/jquery.form.js"></script> 
+<script type="text/javascript">
+$(document).ready(function(){  			//显示修改信息
+  	$(".button").click(function(){
+    $(".update_mess").css("display","block");
+	$(".message").css("display","none"); 
+  });
+});
+
+
+/*ajax验证*/
+
+
+	$('#update_mess').click(function(){ 
+
+		var $username=$('input[name="username"]').val(); //获得用户名
+		var $age=$('input[name="age"]').val();//获得年龄
+		var $start=$('input[name="start"]').val();//获得星座
+
+		
+		$.get('__URL__/usermessage_pass',{username:$username,age:$age,start:$start},function(data){ 
+
+
+        if(data==1)
+        { 
+	       $("#pass").slideDown(150,function(){     
+          }).html('修改成功');
+        }
+
+        else
+        {
+	      $("#pass").slideDown(150,function(){     
+          }).html('修改失败');
+        }
+    
+      },'json'); 
+}) 
+</script>
+</head>
+<style type="text/css">
+	.update_mess
+	{
+		display: none;
+	}
+</style>
+
+<body>	
+<div class="button">修改</div>
+<volist name="usermessage" id="vo">
+<ul>
+<form>
+	<li>最后一次登陆时间{$vo['lasttime']}<br></li>
+
+	<li>注册时间{$vo['addtime']}<br></li>
+
+	<li>
+		<div class="message">用户名:{$vo['username']}</div>
+		<div class="update_mess">用户名<input type="text" name="username" value="{$vo['username']}"></div>
+	</li>
+	
+	<li>
+		<div class="message">年龄{$vo['age']}</div>
+		<div class="update_mess">年龄<input type="text" name="age" value="{$vo['age']}"></div>
+	</li>
+	
+	<li>
+		<div class="message">星座{$vo['start']}</div>
+		<div class="update_mess">星座<input type="text" name="start" value="{$vo['start']}"></div>
+	</li>
+	<input type="submit" id="update_mess" class="update_mess" onclick="ajax()">
+</form>	
+<ul>
+</volist>
+
+<div id="pass">123</div>
+<!--........................................................-->
+
+</body>
+</html>
